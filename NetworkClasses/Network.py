@@ -4,6 +4,7 @@ class Network:
     LGF =0
     GGF_EV =0
     LGF_EV =0
+    ACG  = 0 # 0 runs Adapt/Combine/Filter 1 runs Adapt/Filter/Combine
     setpsize = 0.1
     theta = 0 # TV component
     def __init__(self,N,L):
@@ -71,7 +72,7 @@ class Network:
         self.S = V.T
 #################### 
     def localCupdateandestimate(self):
-        for i in range(self.N-1)
+        for i in range(self.N-1):
             nghList = np.int_(self.L!=0)
             NeighborY = slef.Local[i].E.T*np.multiply(nghList.T,self.Y) # get neighbor measurement data
             self.Local[i].C += NeighborY*NeighborY.T # Update the Local Covariance matrix 
@@ -85,7 +86,7 @@ class Network:
         UpdateV = mat.zeros((n,n))
         ss = 1/la.norm(L)
         I  = mat.eye(n)
-            for i in range(n-1):
+        for i in range(n-1):
                 W = mat.zeros((n,n))
                 for j in range(0,i):
                     W += V[:,j]*V[:,j].T
