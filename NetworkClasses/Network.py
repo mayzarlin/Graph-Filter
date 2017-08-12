@@ -1,18 +1,24 @@
+import numpy as np
+from numpy import linalg as la
+import Local
+import numpy.matlib as mat
+
 class Network:
     LMS =0
     GGF =0
     LGF =0
     GGF_EV =0
     LGF_EV =0
-    ACG  = 0 # 0 runs Adapt/Combine/Filter 1 runs Adapt/Filter/Combine
-    setpsize = 0.1
+    ACG  = 0 
+    setpsize = 1
     theta = 0 # TV component
+    
     def __init__(self,N,L):
         self.N       = N
-        self.mean = 10*mat.ones((N,1))
+        self.Xmean = 10*np.mat.ones((N,1))
         self.L       = L           # Network Laplacian
-        self.Y       = mat.zeros((N,1))  # Measurement Data
-        self.Xtrue = mat.zeros((N,1))# True Network Data
+        self.Y       = np.mat.zeros((N,1))  # Measurement Data
+        self.Xtrue = np.mat.zeros((N,1))# True Network Data
         ED,EV     = la.eig(L)      # EigenValue and EigenVecotr Matrix of Laplacian. Eigen Value are in Desending Order
         self.D      = np.mat(np.diagflat(ED))
         self.S       = np.mat(np.transpose(EV)) ## Global GFT matrix
@@ -63,7 +69,7 @@ class Network:
 ####################
     def Xtrueupdate(self):
         self.theta = 0.9*self.theta + math.sqrt(0.01)*self.S.T*la.pinv(self.D)*mat.random.randn(self.N,1) # Update Random Walk in Signal Model
-        self.Xtrue = self.mean + self.theta # New Signal at time i
+        self.Xtrue = self.Xmean + self.theta # New Signal at time i
 ####################
     def globalCupdateandestimate(self):
         I = mat.eye(self.N)
