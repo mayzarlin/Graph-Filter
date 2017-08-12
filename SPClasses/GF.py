@@ -11,7 +11,7 @@ class GF:
         I   = mat.eye(Graph.N)
         Theta = mat.zeros((Graph.N,Graph.N))
         D = I
-        for i in range(Graph.N-1):
+        for i in range(Graph.N):
             if Graph.D[i,i]>0.00001:
                 filtercoef = 2*(np.square(Fest[0,i])-np.square(Ftrue[0,i]))/(D[i,i]*np.square(Ftrue[0,i]))
                 filtercoef  = max(filtercoef,1)
@@ -23,7 +23,7 @@ class GF:
     def localadapting(Graph,node):
         I = mat.eye(Graph.N)
         X = mat.zeros((Graph.N,Graph.N))
-        for i in range(Graph.N-1):
+        for i in range(Graph.N):
             e = mat.zeros(Graph.N)
             e[0,i] =1
             node.X[:,i] = node.X[:,i] - Graph.stepsize*np.multiply(node.X[:,i],e) + Graph.stepsize*np.multiply(Graph.Y,e)
@@ -31,9 +31,9 @@ class GF:
     def localcombining(Graph,node):
         I = mat.eye(Graph.N)
         Xinter = []
-        for i in range(Graph.N-1):
+        for i in range(Graph.N):
             X = mat.zeros((Graph.N,1)) ## N times 1 column vector 
-            for j in range(Graph.N-1):
+            for j in range(Graph.N):
                 X  += Graph.A[i,j]*node.X[:,j]
             if i ==1:
                 Xinter = X.copy()
@@ -44,7 +44,7 @@ class GF:
     def localfilter(Graph,EV,node):
         I = mat.eye(Graph.N)
         X = mat.zero((Graph.N,Graph.N))                                                                   
-        for i in range(Graph.N-1):
+        for i in range(Graph.N):
             if EV ==1:
                 LocalS = Graph.Local[i].EstS
                 D = I                                                           
