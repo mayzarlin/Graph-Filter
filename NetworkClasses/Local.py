@@ -1,11 +1,5 @@
 import numpy.matlib as mat   
 class Local:
-    L
-    S
-    EstS
-    D
-    C
-    E
     def __init__(self,N):
         self.L  = mat.zeros((N,N)) #Local Laplacain
         self.S  = mat.zeros((N,N))# Local GFT Matrix

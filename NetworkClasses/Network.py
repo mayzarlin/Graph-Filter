@@ -6,32 +6,21 @@ class Network:
     LMS =0
     GGF =0
     LGF =0
-    GGF_EV =0
-    LGF_EV =0
-    ACG  = 0 
+    GGFEV =0
+    LGFEV =0
+    ACG  = 0 # 0 : ACG, 1:AGC
     setpsize = 1
     theta = 0 # TV component
-    N
-    Xmean
-    L
-    Y
-    Xtrue
-    D
-    S
-    EstS
-    C
-    Local
-    A
-    def setvalue(self,N,L):
+    def __init__(self,N,L):
         self.N       = N
         self.Xmean = 10*np.ones((N,1))
         self.L       = L           # Network Laplacian
         self.Y       = mat.zeros((N,1))  # Measurement Data
         self.Xtrue = mat.zeros((N,1))# True Network Data
         ED,EV     = la.eig(L)      # EigenValue and EigenVecotr Matrix of Laplacian. Eigen Value are in Desending Order
-        self.D      = mat(np.diagflat(ED))
-        self.S       = mat(np.transpose(EV)) ## Global GFT matrix
-        self.EstS   = mat(mat.random.rand(N,N)) # Estimated GFT Matrix
+        self.D      = np.mat(np.diagflat(ED))
+        self.S       = np.mat(np.transpose(EV)) ## Global GFT matrix
+        self.EstS   = np.mat(mat.random.rand(N,N)) # Estimated GFT Matrix
         self.C       = mat.zeros((N,N))# Covariance Matrix
         self.Local  = []
         for i in range(N):
@@ -101,14 +90,13 @@ class Network:
         UpdateV = mat.zeros((n,n))
         ss = 1/la.norm(L)
         I  = mat.eye(n)
-        for i in range(n-1):
+        for i in range(N):
                 W = mat.zeros((n,n))
                 for j in range(0,i):
                     W += V[:,j]*V[:,j].T
                 UpdateV[:,i] = V[:,i] + ss*(I -V[:,i]*V[:,i].T)*L*(I-W)*V[:,i]
                 UpdateV[:,i] = UpdateV[:,i]/la.norm(UpdateV[:,i])
-        return UpdateV
-    
+        return UpdatV
     
     
     

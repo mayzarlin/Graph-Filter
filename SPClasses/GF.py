@@ -1,4 +1,9 @@
+from numpy import linalg as la
+import numpy.matlib as mat
+import numpy as np
 class GF:
+    def globaladapting(Graph,node):
+        node.GlobalX = node.GlobalX - (Graph.stepsize/Graph.N)*node.GlobalX + (Graph.stepsize/Graph.N)*Graph.Y
     def globalfilter(Graph,EV,node):
         if EV ==1:
             S = node.S
@@ -55,15 +60,9 @@ class GF:
             LocalFtrue = Graph.Local[i].S*Graph.Local[i].E.T*Graph.Xtrue 
             LocalF = Graph.Local[i].S*Graph.Local[i].E.T*node.X[:,i]
             for j in range(sum(np.int_(LocalFtrue!=0))):
-                   htemp =  2*(np.square(LocalF[0,j])-np.square(LocalFtrue[0,j]))/(D[j,j]*np.square(LocalF[0,j]))                                                    
-                   htemp = min(htemp,1)
-                   htemp = max(htemp,0)                                                          
-                   h[0,j] =h_*D[j,j]
+                htemp =  2*(np.square(LocalF[0,j])-np.square(LocalFtrue[0,j]))/(D[j,j]*np.square(LocalF[0,j]))                                                    
+                htemp = min(htemp,1)
+                htemp = max(htemp,0)                                                          
+                h[0,j] =h_*D[j,j]
             X = node.X[:,i]- Graph.Graph.Local[i].E*LocalS.T*h*LocalS*Graph.Local[i].E.T*node.X[:,i];
         node.X = X.copy()                                                                    
-        
-        
-        
-        
-        
-        
